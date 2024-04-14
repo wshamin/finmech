@@ -1,0 +1,8 @@
+spring.application.name=finmech-core
+spring.datasource.url=jdbc:postgresql://172.17.0.2:5432/finmech-db
+spring.datasource.username=
+spring.datasource.password=
+spring.jpa.generate-ddl=true
+spring.jpa.open-in-view=false
+spring.security.user.name=
+spring.security.user.password=
