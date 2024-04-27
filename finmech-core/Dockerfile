@@ -26,5 +26,8 @@ WORKDIR /app
 # Copy only the built artifact from the previous stage
 COPY --from=build /workspace/app/build/libs/*.jar app.jar
 
+# Expose port
+EXPOSE 8080
+
 # Command to run the application
 ENTRYPOINT ["java", "-jar", "app.jar"]
