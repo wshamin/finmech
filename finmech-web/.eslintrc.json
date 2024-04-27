@@ -1,3 +1,8 @@
 {
-  "extends": "next/core-web-vitals"
+  "extends": "next/core-web-vitals",
+  "rules": {
+    "object-curly-spacing": ["error", "always"], // добавляет пробелы внутри фигурных скобок
+    "quotes": ["error", "single"], // требует использование одинарных кавычек
+    "import/no-unresolved": "off" // если у вас возникают проблемы с разрешением путей, можно временно отключить это правило
+  }
 }
