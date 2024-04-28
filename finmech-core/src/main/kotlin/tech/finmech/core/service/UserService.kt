@@ -10,8 +10,15 @@ import tech.finmech.core.repository.UserRepository
 class UserService(val userRepository: UserRepository) {
 
     @Transactional
-    fun createUser(name: String, email: String): User {
-        val user = User(name = name, email = email)
-        return userRepository.save(user)
+    fun registerUser(name: String, email: String, password: String): User {
+        if (userRepository.findByEmail(email) != null) {
+            throw RuntimeException("User already exists with email: $email")
+        }
+        val encryptedPassword = encryptPassword(password)
+        return userRepository.save(User(name = name, email = email, password = encryptedPassword))
+    }
+
+    private fun encryptPassword(password: String): String {
+        return password
     }
 }

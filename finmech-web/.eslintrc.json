@@ -1,3 +1,7 @@
 {
-  "extends": "next/core-web-vitals"
+  "extends": "next/core-web-vitals",
+  "rules": {
+    "object-curly-spacing": ["error", "always"], // adds spaces inside curly braces
+    "quotes": ["error", "single"] // requires single quotes
+  }
 }
