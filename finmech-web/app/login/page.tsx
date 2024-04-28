@@ -4,7 +4,7 @@ import { useState } from 'react';
 import SignInForm from './components/SignInForm';
 import RegisterForm from './components/RegisterForm';
 
-export default function AuthPage() {
+export default function LoginPage() {
     const [isLogin, setIsLogin] = useState(true);
 
     const switchToRegister = () => setIsLogin(false);

@@ -4,4 +4,6 @@ import org.springframework.data.jpa.repository.JpaRepository
 
 import tech.finmech.core.model.User
 
-interface UserRepository : JpaRepository<User, Long>
+interface UserRepository : JpaRepository<User, Long> {
+    fun findByEmail(email: String): User?
+}
