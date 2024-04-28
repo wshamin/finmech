@@ -1,11 +1,42 @@
-import { FC } from 'react';
+import { FC, FormEvent, useState } from 'react';
 import Image from 'next/image';
 
 interface RegisterFormProps {
     onSwitchToLogin: () => void; // Функция, которая вызывается при клике на кнопку авторизации
 }
 
+interface RegistrationData {
+    name: string;
+    email: string;
+    password: string;
+}
+
 const RegisterForm: FC<RegisterFormProps> = ({ onSwitchToLogin }) => {
+    const [name, setName] = useState<string>('');
+    const [email, setEmail] = useState<string>('');
+    const [password, setPassword] = useState<string>('');
+
+    const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+
+        const registrationData: RegistrationData = { name, email, password };
+
+        try {
+            const response = await fetch('http://localhost:3000/api/auth/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(registrationData)
+            });
+            const data = await response.json();
+            console.log('Ответ сервера:', data); // Логирование ответа сервера
+        } catch (error) {
+            console.error('Ошибка при отправке данных:', error);
+        }
+    };
+
+
     return (
         <>
             <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
@@ -23,7 +54,25 @@ const RegisterForm: FC<RegisterFormProps> = ({ onSwitchToLogin }) => {
                 </div>
 
                 <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-                    <form className="space-y-6" action="#" method="POST">
+                    <form className="space-y-6" onSubmit={handleSubmit}>
+                        <div>
+                            <label htmlFor="name" className="block text-sm font-medium leading-6 text-gray-900">
+                                Name
+                            </label>
+                            <div className="mt-2">
+                                <input
+                                    id="name"
+                                    name="name"
+                                    type="name"
+                                    autoComplete="name"
+                                    required
+                                    value={name}
+                                    onChange={(e) => setName(e.target.value)}
+                                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                />
+                            </div>
+                        </div>
+
                         <div>
                             <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
                                 Email address
@@ -35,6 +84,8 @@ const RegisterForm: FC<RegisterFormProps> = ({ onSwitchToLogin }) => {
                                     type="email"
                                     autoComplete="email"
                                     required
+                                    value={email}
+                                    onChange={(e) => setEmail(e.target.value)}
                                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                 />
                             </div>
@@ -58,6 +109,8 @@ const RegisterForm: FC<RegisterFormProps> = ({ onSwitchToLogin }) => {
                                     type="password"
                                     autoComplete="current-password"
                                     required
+                                    value={password}
+                                    onChange={(e) => setPassword(e.target.value)}
                                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                 />
                             </div>
