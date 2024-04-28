@@ -4,7 +4,7 @@ const nextConfig = {
         return [
             {
                 source: '/api/:path*',
-                destination: 'http://172.17.0.3:8080/:path*', // URL вашего бэкенда
+                destination: 'http://localhost:8080/:path*',
             },
         ]
     },

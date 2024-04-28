@@ -14,12 +14,11 @@ class UserService(val userRepository: UserRepository) {
         if (userRepository.findByEmail(email) != null) {
             throw RuntimeException("User already exists with email: $email")
         }
-        val encryptedPassword = encryptPassword(password)  // Предположим, у вас есть функция для шифрования пароля
+        val encryptedPassword = encryptPassword(password)
         return userRepository.save(User(name = name, email = email, password = encryptedPassword))
     }
 
     private fun encryptPassword(password: String): String {
-        // Ваш метод шифрования пароля
-        return password // Возвращаем пароль просто для примера
+        return password
     }
 }
