@@ -1,22 +1,27 @@
-'use client'
+'use client';
 import { useState } from 'react';
 
-import SignInForm from './components/SignInForm';
 import RegisterForm from './components/RegisterForm';
+import SignInForm from './components/SignInForm';
 
 export default function LoginPage() {
-    const [isLogin, setIsLogin] = useState(true);
+  const [isLogin, setIsLogin] = useState(true);
 
-    const switchToRegister = () => setIsLogin(false);
-    const switchToLogin = () => setIsLogin(true);
+  const switchToLogin = () => {
+    setIsLogin(true);
+  };
 
-    return (
-        <div>
-            {isLogin ? (
-                <SignInForm onSwitchToRegister={switchToRegister} />
-            ) : (
-                <RegisterForm onSwitchToLogin={switchToLogin} />
-            )}
-        </div>
-    )
+  const switchToRegister = () => {
+    setIsLogin(false);
+  };
+
+  return (
+    <div>
+      {isLogin ? (
+        <SignInForm onSwitchToRegister={switchToRegister} />
+      ) : (
+        <RegisterForm onSwitchToLogin={switchToLogin} />
+      )}
+    </div>
+  );
 }

@@ -1,3 +1,6 @@
-import { Inter } from 'next/font/google';
+import { Questrial } from 'next/font/google';
 
-export const inter = Inter({ subsets: ['latin'] });
+export const questrial = Questrial({
+  subsets: ['latin'],
+  weight: ['400'],
+});
