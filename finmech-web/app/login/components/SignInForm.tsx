@@ -1,5 +1,6 @@
 import { FC } from 'react';
 import Image from 'next/image';
+import AuthButton from '@/app/login/components/AuthButton';
 
 interface SignInFormProps {
   onSwitchToRegister: () => void; // Функция, которая вызывается при клике на кнопку регистрации
@@ -42,10 +43,7 @@ const SignInForm: FC<SignInFormProps> = ({ onSwitchToRegister }) => {
             <div>
               <div className="mt-[-1.5rem] flex items-center justify-between">
                 <div className="text-sm">
-                  <a
-                    href="#"
-                    className="font-semibold text-gray-900 hover:text-indigo-500"
-                  >
+                  <a href="#" className="font-semibold text-gray-900">
                     Forgot password?
                   </a>
                 </div>
@@ -65,12 +63,7 @@ const SignInForm: FC<SignInFormProps> = ({ onSwitchToRegister }) => {
 
             <div>
               <div className="mt-2">
-                <button
-                  type="submit"
-                  className="flex w-full justify-center rounded-3xl border-2 border-gray-500 bg-transparent px-3 py-4 text-sm font-semibold leading-6 text-gray-900 transition-shadow duration-500 ease-in-out hover:shadow-xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-900"
-                >
-                  Sign in
-                </button>
+                <AuthButton text="Sign In" />
               </div>
             </div>
           </form>
@@ -79,7 +72,7 @@ const SignInForm: FC<SignInFormProps> = ({ onSwitchToRegister }) => {
             Not a member?{' '}
             <button
               onClick={onSwitchToRegister}
-              className="font-semibold leading-6 text-gray-900 hover:text-gray-900"
+              className="font-semibold leading-6 text-gray-900"
             >
               Start a 14 day free trial
             </button>

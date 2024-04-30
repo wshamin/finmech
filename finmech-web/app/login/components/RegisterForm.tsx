@@ -1,5 +1,6 @@
 import { FC, FormEvent, useState } from 'react';
 import Image from 'next/image';
+import AuthButton from '@/app/login/components/AuthButton';
 
 interface RegisterFormProps {
   onSwitchToLogin: () => void; // Функция, которая вызывается при клике на кнопку авторизации
@@ -103,12 +104,7 @@ const RegisterForm: FC<RegisterFormProps> = ({ onSwitchToLogin }) => {
             </div>
 
             <div>
-              <button
-                type="submit"
-                className="flex w-full justify-center rounded-3xl border-2 border-gray-500 bg-transparent px-3 py-4 text-sm font-semibold leading-6 text-gray-900 transition-shadow duration-500 ease-in-out hover:shadow-xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-900"
-              >
-                Create account
-              </button>
+              <AuthButton text="Create account" />
             </div>
           </form>
 
@@ -116,7 +112,7 @@ const RegisterForm: FC<RegisterFormProps> = ({ onSwitchToLogin }) => {
             Already registered?{' '}
             <button
               onClick={onSwitchToLogin}
-              className="font-semibold leading-6 text-gray-900 hover:text-gray-900"
+              className="font-semibold leading-6 text-gray-900"
             >
               Sign In
             </button>
