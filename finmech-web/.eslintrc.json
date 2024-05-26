@@ -1,7 +1,20 @@
 {
-  "extends": "next/core-web-vitals",
+  "extends": [
+    "next/core-web-vitals",
+    "plugin:react/recommended",
+    "plugin:prettier/recommended"
+  ],
   "rules": {
-    "object-curly-spacing": ["error", "always"], // adds spaces inside curly braces
-    "quotes": ["error", "single"] // requires single quotes
+    "react/react-in-jsx-scope": "off",
+    "react/sort-prop-types": [
+      "error",
+      {
+        "ignoreCase": true,
+        "callbacksLast": true,
+        "requiredFirst": true,
+        "sortShapeProp": true,
+        "noSortAlphabetically": true
+      }
+    ]
   }
 }

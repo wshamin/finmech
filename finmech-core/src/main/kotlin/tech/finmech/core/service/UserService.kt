@@ -1,24 +1,45 @@
 package tech.finmech.core.service
 
+import org.springframework.dao.DuplicateKeyException
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.stereotype.Service
-import org.springframework.transaction.annotation.Transactional
-
+import org.springframework.web.bind.annotation.RequestBody
+import tech.finmech.core.controller.user.UserRequest
+import tech.finmech.core.controller.user.UserResponse
+import tech.finmech.core.mapper.UserMapper
 import tech.finmech.core.model.User
 import tech.finmech.core.repository.UserRepository
 
 @Service
-class UserService(val userRepository: UserRepository) {
+class UserService(
+    private val passwordEncoder: BCryptPasswordEncoder,
+    private val roleService: RoleService,
+    private val userMapper: UserMapper,
+    private val userRepository: UserRepository
+) {
+    fun createUser(@RequestBody userRequest: UserRequest): UserResponse? {
+        val userModel = userMapper.toModel(userRequest)
+        val foundUserByUsername = userRepository.findByUsername(userModel.username)
 
-    @Transactional
-    fun registerUser(name: String, email: String, password: String): User {
-        if (userRepository.findByEmail(email) != null) {
-            throw RuntimeException("User already exists with email: $email")
+        if (foundUserByUsername != null) {
+            throw DuplicateKeyException("User already exists.")
         }
-        val encryptedPassword = encryptPassword(password)
-        return userRepository.save(User(name = name, email = email, password = encryptedPassword))
-    }
 
-    private fun encryptPassword(password: String): String {
-        return password
+        val foundUserByEmail = userRepository.findByEmail(userModel.email)
+
+        if (foundUserByEmail != null) {
+            throw DuplicateKeyException("Email already in use.")
+        }
+
+        val encodedPassword = passwordEncoder.encode(userModel.password)
+        val user = User(
+            username = userModel.username, email = userModel.email, password = encodedPassword, roles = userModel.roles
+        )
+
+        val userRole = roleService.findById(1L)
+        user.roles.add(userRole)
+
+        val savedUser = userRepository.save(user)
+        return userMapper.toResponse(savedUser)
     }
 }
