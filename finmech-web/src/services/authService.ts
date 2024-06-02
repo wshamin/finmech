@@ -1,9 +1,4 @@
-import {
-  AuthRequest,
-  AuthResponse,
-  UserRequest,
-  UserResponse,
-} from '@/types/auth';
+import { AuthRequest, AuthResponse, UserRequest, UserResponse } from '@/types/auth';
 import { cookies } from 'next/headers';
 
 export const authenticateUser = async (data: FormData): Promise<void> => {
