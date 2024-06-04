@@ -12,7 +12,7 @@ if (!SECRET_KEY) {
 
 const SECRET_KEY_BYTES: Uint8Array = new Uint8Array(Buffer.from(SECRET_KEY, 'base64'));
 
-async function verifyToken(token: string): Promise<JWTPayload | null> {
+const verifyToken = async (token: string): Promise<JWTPayload | null> => {
   try {
     const { payload } = await jwtVerify(token, SECRET_KEY_BYTES, {
       algorithms: ['HS256'],
@@ -22,9 +22,9 @@ async function verifyToken(token: string): Promise<JWTPayload | null> {
     console.error('Failed to verify token:', error);
     return null;
   }
-}
+};
 
-async function refreshAccessToken(refreshToken: string): Promise<string | null> {
+const refreshAccessToken = async (refreshToken: string): Promise<string | null> => {
   try {
     const response: Response = await fetch(`${BASE_URL}/api/auth/refresh`, {
       method: 'POST',
@@ -32,7 +32,6 @@ async function refreshAccessToken(refreshToken: string): Promise<string | null> 
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({ refreshToken }),
-      signal: new AbortController().signal, // Добавление тайм-аута при необходимости
     });
 
     if (response.ok) {
@@ -46,9 +45,9 @@ async function refreshAccessToken(refreshToken: string): Promise<string | null> 
     console.error('Failed to refresh access token:', error);
     return null;
   }
-}
+};
 
-export async function middleware(req: NextRequest): Promise<NextResponse> {
+export const middleware = async (req: NextRequest): Promise<NextResponse> => {
   const accessToken: RequestCookie | undefined = req.cookies.get('accessToken');
   const refreshToken: RequestCookie | undefined = req.cookies.get('refreshToken');
 
@@ -56,24 +55,25 @@ export async function middleware(req: NextRequest): Promise<NextResponse> {
     return NextResponse.redirect(LOGIN_URL);
   }
 
-  let payload: JWTPayload | null = await verifyToken(accessToken.value);
+  const payload: JWTPayload | null = await verifyToken(accessToken.value);
 
-  if (!payload) {
-    if (refreshToken && refreshToken.value) {
-      const newAccessToken: string | null = await refreshAccessToken(refreshToken.value);
-
-      if (newAccessToken) {
-        const response: NextResponse = NextResponse.next();
-        response.cookies.set('accessToken', newAccessToken, { httpOnly: true });
-        // response.cookies.set('accessToken', newAccessToken, { httpOnly: true, secure: true });
-        return response;
-      }
-    }
-    return NextResponse.redirect(LOGIN_URL);
+  if (payload) {
+    return NextResponse.next();
   }
 
-  return NextResponse.next();
-}
+  if (refreshToken && refreshToken.value) {
+    const newAccessToken: string | null = await refreshAccessToken(refreshToken.value);
+
+    if (newAccessToken) {
+      const response: NextResponse = NextResponse.next();
+      response.cookies.set('accessToken', newAccessToken, { httpOnly: true });
+      // response.cookies.set('accessToken', newAccessToken, { httpOnly: true, secure: true });
+      return response;
+    }
+  }
+
+  return NextResponse.redirect(LOGIN_URL);
+};
 
 export const config: { matcher: string[] } = {
   matcher: [
