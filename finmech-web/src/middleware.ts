@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { RequestCookie } from 'next/dist/compiled/@edge-runtime/cookies';
 import { JWTPayload, jwtVerify } from 'jose';
+import { TokenResponse } from '@/types/auth';
 
 const BASE_URL: string = 'http://localhost:8080';
 const LOGIN_URL: string = 'http://localhost:3000/login';
@@ -35,7 +36,7 @@ const refreshAccessToken = async (refreshToken: string): Promise<string | null> 
     });
 
     if (response.ok) {
-      const data = await response.json();
+      const data = (await response.json()) as TokenResponse;
       return data.accessToken;
     } else {
       console.error('Failed to refresh access token, response not OK');

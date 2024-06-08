@@ -1,3 +1,5 @@
+export type FormDataEntryValue = File | string;
+
 export interface AuthRequest {
   username: FormDataEntryValue | null;
   password: FormDataEntryValue | null;
@@ -6,6 +8,10 @@ export interface AuthRequest {
 export interface AuthResponse {
   accessToken: string;
   refreshToken: string;
+}
+
+export interface TokenResponse {
+  accessToken: string;
 }
 
 interface Role {

@@ -2,6 +2,7 @@ import { FC } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import AuthButton from '../../_components/AuthButton';
+import { redirect } from 'next/navigation';
 import { authenticateUser } from '@/services/authService';
 
 interface SignInFormProps {}
@@ -9,7 +10,13 @@ interface SignInFormProps {}
 const SignInForm: FC<SignInFormProps> = () => {
   const handleSubmit = async (data: FormData): Promise<void> => {
     'use server';
-    await authenticateUser(data);
+    const authResult: string | null = await authenticateUser(data);
+    if (authResult) {
+      redirect('/dashboard');
+    } else {
+      // Handle authentication error, e.g., show a message to the user
+      console.log('Authentication failed, please check your credentials');
+    }
   };
 
   return (
