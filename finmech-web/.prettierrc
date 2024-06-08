@@ -4,6 +4,7 @@
   "semi": true,
   "bracketSpacing": true,
   "tabWidth": 2,
+  "printWidth": 120,
   "tailwindConfig": "./tailwind.config.ts",
   "plugins": [
     "prettier-plugin-tailwindcss"

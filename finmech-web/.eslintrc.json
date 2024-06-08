@@ -1,9 +1,5 @@
 {
-  "extends": [
-    "next/core-web-vitals",
-    "plugin:react/recommended",
-    "plugin:prettier/recommended"
-  ],
+  "extends": ["next/core-web-vitals", "plugin:react/recommended", "plugin:prettier/recommended"],
   "rules": {
     "react/react-in-jsx-scope": "off",
     "react/sort-prop-types": [
@@ -14,6 +10,17 @@
         "requiredFirst": true,
         "sortShapeProp": true,
         "noSortAlphabetically": true
+      }
+    ],
+    "prettier/prettier": [
+      "error",
+      {
+        "singleQuote": true,
+        "trailingComma": "all",
+        "semi": true,
+        "bracketSpacing": true,
+        "tabWidth": 2,
+        "printWidth": 120
       }
     ]
   }
